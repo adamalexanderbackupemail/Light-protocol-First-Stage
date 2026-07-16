@@ -9,18 +9,84 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SpeciesRouteImport } from './routes/species'
+import { Route as SpaceRouteImport } from './routes/space'
+import { Route as ScannerRouteImport } from './routes/scanner'
 import { Route as RuntimeRouteImport } from './routes/runtime'
+import { Route as ResearchRouteImport } from './routes/research'
+import { Route as KnowledgeRouteImport } from './routes/knowledge'
+import { Route as IndustryRouteImport } from './routes/industry'
+import { Route as FpsRouteImport } from './routes/fps'
+import { Route as FleetRouteImport } from './routes/fleet'
+import { Route as EngineRouteImport } from './routes/engine'
+import { Route as DeveloperRouteImport } from './routes/developer'
 import { Route as CivilizationRouteImport } from './routes/civilization'
+import { Route as AiRouteImport } from './routes/ai'
 import { Route as IndexRouteImport } from './routes/index'
 
+const SpeciesRoute = SpeciesRouteImport.update({
+  id: '/species',
+  path: '/species',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SpaceRoute = SpaceRouteImport.update({
+  id: '/space',
+  path: '/space',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ScannerRoute = ScannerRouteImport.update({
+  id: '/scanner',
+  path: '/scanner',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RuntimeRoute = RuntimeRouteImport.update({
   id: '/runtime',
   path: '/runtime',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ResearchRoute = ResearchRouteImport.update({
+  id: '/research',
+  path: '/research',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KnowledgeRoute = KnowledgeRouteImport.update({
+  id: '/knowledge',
+  path: '/knowledge',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IndustryRoute = IndustryRouteImport.update({
+  id: '/industry',
+  path: '/industry',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FpsRoute = FpsRouteImport.update({
+  id: '/fps',
+  path: '/fps',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FleetRoute = FleetRouteImport.update({
+  id: '/fleet',
+  path: '/fleet',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EngineRoute = EngineRouteImport.update({
+  id: '/engine',
+  path: '/engine',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DeveloperRoute = DeveloperRouteImport.update({
+  id: '/developer',
+  path: '/developer',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CivilizationRoute = CivilizationRouteImport.update({
   id: '/civilization',
   path: '/civilization',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AiRoute = AiRouteImport.update({
+  id: '/ai',
+  path: '/ai',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -31,36 +97,144 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/ai': typeof AiRoute
   '/civilization': typeof CivilizationRoute
+  '/developer': typeof DeveloperRoute
+  '/engine': typeof EngineRoute
+  '/fleet': typeof FleetRoute
+  '/fps': typeof FpsRoute
+  '/industry': typeof IndustryRoute
+  '/knowledge': typeof KnowledgeRoute
+  '/research': typeof ResearchRoute
   '/runtime': typeof RuntimeRoute
+  '/scanner': typeof ScannerRoute
+  '/space': typeof SpaceRoute
+  '/species': typeof SpeciesRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/ai': typeof AiRoute
   '/civilization': typeof CivilizationRoute
+  '/developer': typeof DeveloperRoute
+  '/engine': typeof EngineRoute
+  '/fleet': typeof FleetRoute
+  '/fps': typeof FpsRoute
+  '/industry': typeof IndustryRoute
+  '/knowledge': typeof KnowledgeRoute
+  '/research': typeof ResearchRoute
   '/runtime': typeof RuntimeRoute
+  '/scanner': typeof ScannerRoute
+  '/space': typeof SpaceRoute
+  '/species': typeof SpeciesRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/ai': typeof AiRoute
   '/civilization': typeof CivilizationRoute
+  '/developer': typeof DeveloperRoute
+  '/engine': typeof EngineRoute
+  '/fleet': typeof FleetRoute
+  '/fps': typeof FpsRoute
+  '/industry': typeof IndustryRoute
+  '/knowledge': typeof KnowledgeRoute
+  '/research': typeof ResearchRoute
   '/runtime': typeof RuntimeRoute
+  '/scanner': typeof ScannerRoute
+  '/space': typeof SpaceRoute
+  '/species': typeof SpeciesRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/civilization' | '/runtime'
+  fullPaths:
+    | '/'
+    | '/ai'
+    | '/civilization'
+    | '/developer'
+    | '/engine'
+    | '/fleet'
+    | '/fps'
+    | '/industry'
+    | '/knowledge'
+    | '/research'
+    | '/runtime'
+    | '/scanner'
+    | '/space'
+    | '/species'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/civilization' | '/runtime'
-  id: '__root__' | '/' | '/civilization' | '/runtime'
+  to:
+    | '/'
+    | '/ai'
+    | '/civilization'
+    | '/developer'
+    | '/engine'
+    | '/fleet'
+    | '/fps'
+    | '/industry'
+    | '/knowledge'
+    | '/research'
+    | '/runtime'
+    | '/scanner'
+    | '/space'
+    | '/species'
+  id:
+    | '__root__'
+    | '/'
+    | '/ai'
+    | '/civilization'
+    | '/developer'
+    | '/engine'
+    | '/fleet'
+    | '/fps'
+    | '/industry'
+    | '/knowledge'
+    | '/research'
+    | '/runtime'
+    | '/scanner'
+    | '/space'
+    | '/species'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AiRoute: typeof AiRoute
   CivilizationRoute: typeof CivilizationRoute
+  DeveloperRoute: typeof DeveloperRoute
+  EngineRoute: typeof EngineRoute
+  FleetRoute: typeof FleetRoute
+  FpsRoute: typeof FpsRoute
+  IndustryRoute: typeof IndustryRoute
+  KnowledgeRoute: typeof KnowledgeRoute
+  ResearchRoute: typeof ResearchRoute
   RuntimeRoute: typeof RuntimeRoute
+  ScannerRoute: typeof ScannerRoute
+  SpaceRoute: typeof SpaceRoute
+  SpeciesRoute: typeof SpeciesRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/species': {
+      id: '/species'
+      path: '/species'
+      fullPath: '/species'
+      preLoaderRoute: typeof SpeciesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/space': {
+      id: '/space'
+      path: '/space'
+      fullPath: '/space'
+      preLoaderRoute: typeof SpaceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/scanner': {
+      id: '/scanner'
+      path: '/scanner'
+      fullPath: '/scanner'
+      preLoaderRoute: typeof ScannerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/runtime': {
       id: '/runtime'
       path: '/runtime'
@@ -68,11 +242,67 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RuntimeRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/research': {
+      id: '/research'
+      path: '/research'
+      fullPath: '/research'
+      preLoaderRoute: typeof ResearchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/knowledge': {
+      id: '/knowledge'
+      path: '/knowledge'
+      fullPath: '/knowledge'
+      preLoaderRoute: typeof KnowledgeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/industry': {
+      id: '/industry'
+      path: '/industry'
+      fullPath: '/industry'
+      preLoaderRoute: typeof IndustryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/fps': {
+      id: '/fps'
+      path: '/fps'
+      fullPath: '/fps'
+      preLoaderRoute: typeof FpsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/fleet': {
+      id: '/fleet'
+      path: '/fleet'
+      fullPath: '/fleet'
+      preLoaderRoute: typeof FleetRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/engine': {
+      id: '/engine'
+      path: '/engine'
+      fullPath: '/engine'
+      preLoaderRoute: typeof EngineRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/developer': {
+      id: '/developer'
+      path: '/developer'
+      fullPath: '/developer'
+      preLoaderRoute: typeof DeveloperRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/civilization': {
       id: '/civilization'
       path: '/civilization'
       fullPath: '/civilization'
       preLoaderRoute: typeof CivilizationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ai': {
+      id: '/ai'
+      path: '/ai'
+      fullPath: '/ai'
+      preLoaderRoute: typeof AiRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -87,8 +317,19 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AiRoute: AiRoute,
   CivilizationRoute: CivilizationRoute,
+  DeveloperRoute: DeveloperRoute,
+  EngineRoute: EngineRoute,
+  FleetRoute: FleetRoute,
+  FpsRoute: FpsRoute,
+  IndustryRoute: IndustryRoute,
+  KnowledgeRoute: KnowledgeRoute,
+  ResearchRoute: ResearchRoute,
   RuntimeRoute: RuntimeRoute,
+  ScannerRoute: ScannerRoute,
+  SpaceRoute: SpaceRoute,
+  SpeciesRoute: SpeciesRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
