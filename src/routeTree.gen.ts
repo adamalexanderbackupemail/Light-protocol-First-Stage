@@ -9,8 +9,20 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as RuntimeRouteImport } from './routes/runtime'
+import { Route as CivilizationRouteImport } from './routes/civilization'
 import { Route as IndexRouteImport } from './routes/index'
 
+const RuntimeRoute = RuntimeRouteImport.update({
+  id: '/runtime',
+  path: '/runtime',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CivilizationRoute = CivilizationRouteImport.update({
+  id: '/civilization',
+  path: '/civilization',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -19,28 +31,50 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/civilization': typeof CivilizationRoute
+  '/runtime': typeof RuntimeRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/civilization': typeof CivilizationRoute
+  '/runtime': typeof RuntimeRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/civilization': typeof CivilizationRoute
+  '/runtime': typeof RuntimeRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/civilization' | '/runtime'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/civilization' | '/runtime'
+  id: '__root__' | '/' | '/civilization' | '/runtime'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CivilizationRoute: typeof CivilizationRoute
+  RuntimeRoute: typeof RuntimeRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/runtime': {
+      id: '/runtime'
+      path: '/runtime'
+      fullPath: '/runtime'
+      preLoaderRoute: typeof RuntimeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/civilization': {
+      id: '/civilization'
+      path: '/civilization'
+      fullPath: '/civilization'
+      preLoaderRoute: typeof CivilizationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -53,6 +87,8 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CivilizationRoute: CivilizationRoute,
+  RuntimeRoute: RuntimeRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

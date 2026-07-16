@@ -127,7 +127,7 @@ function Civilization() {
 }
 
 function TabPanel({ tab, s, generation }: { tab: Tab; s: ReturnType<typeof civStats>; generation: number }) {
-  const body: Record<Tab, JSX.Element> = {
+  const body: Record<Tab, React.ReactNode> = {
     Overview: (
       <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground">
         A civilization of generation <span className="text-signal">{generation.toLocaleString()}</span> sustains{" "}
