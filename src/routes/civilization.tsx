@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { Scanner } from "@/lib/scanner/Scanner";
 import { drawOrbital, drawHarmonic, drawNeural, civStats } from "@/lib/scanner/math";
 import { TechnicalPanel, DataReadout, HoloLabel, Divider } from "@/components/technical/primitives";
