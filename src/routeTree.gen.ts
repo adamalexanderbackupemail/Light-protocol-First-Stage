@@ -20,6 +20,7 @@ import { Route as FpsRouteImport } from './routes/fps'
 import { Route as FleetRouteImport } from './routes/fleet'
 import { Route as EngineRouteImport } from './routes/engine'
 import { Route as DeveloperRouteImport } from './routes/developer'
+import { Route as CoreRouteImport } from './routes/core'
 import { Route as CivilizationRouteImport } from './routes/civilization'
 import { Route as AiRouteImport } from './routes/ai'
 import { Route as IndexRouteImport } from './routes/index'
@@ -79,6 +80,11 @@ const DeveloperRoute = DeveloperRouteImport.update({
   path: '/developer',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CoreRoute = CoreRouteImport.update({
+  id: '/core',
+  path: '/core',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CivilizationRoute = CivilizationRouteImport.update({
   id: '/civilization',
   path: '/civilization',
@@ -99,6 +105,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/ai': typeof AiRoute
   '/civilization': typeof CivilizationRoute
+  '/core': typeof CoreRoute
   '/developer': typeof DeveloperRoute
   '/engine': typeof EngineRoute
   '/fleet': typeof FleetRoute
@@ -115,6 +122,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/ai': typeof AiRoute
   '/civilization': typeof CivilizationRoute
+  '/core': typeof CoreRoute
   '/developer': typeof DeveloperRoute
   '/engine': typeof EngineRoute
   '/fleet': typeof FleetRoute
@@ -132,6 +140,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/ai': typeof AiRoute
   '/civilization': typeof CivilizationRoute
+  '/core': typeof CoreRoute
   '/developer': typeof DeveloperRoute
   '/engine': typeof EngineRoute
   '/fleet': typeof FleetRoute
@@ -150,6 +159,7 @@ export interface FileRouteTypes {
     | '/'
     | '/ai'
     | '/civilization'
+    | '/core'
     | '/developer'
     | '/engine'
     | '/fleet'
@@ -166,6 +176,7 @@ export interface FileRouteTypes {
     | '/'
     | '/ai'
     | '/civilization'
+    | '/core'
     | '/developer'
     | '/engine'
     | '/fleet'
@@ -182,6 +193,7 @@ export interface FileRouteTypes {
     | '/'
     | '/ai'
     | '/civilization'
+    | '/core'
     | '/developer'
     | '/engine'
     | '/fleet'
@@ -199,6 +211,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AiRoute: typeof AiRoute
   CivilizationRoute: typeof CivilizationRoute
+  CoreRoute: typeof CoreRoute
   DeveloperRoute: typeof DeveloperRoute
   EngineRoute: typeof EngineRoute
   FleetRoute: typeof FleetRoute
@@ -291,6 +304,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DeveloperRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/core': {
+      id: '/core'
+      path: '/core'
+      fullPath: '/core'
+      preLoaderRoute: typeof CoreRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/civilization': {
       id: '/civilization'
       path: '/civilization'
@@ -319,6 +339,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AiRoute: AiRoute,
   CivilizationRoute: CivilizationRoute,
+  CoreRoute: CoreRoute,
   DeveloperRoute: DeveloperRoute,
   EngineRoute: EngineRoute,
   FleetRoute: FleetRoute,
