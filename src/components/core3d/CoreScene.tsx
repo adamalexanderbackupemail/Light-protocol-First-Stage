@@ -156,7 +156,7 @@ export default function CoreScene(props: CoreSceneProps) {
 
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0x02060a);
-    scene.fog = new THREE.FogExp2(0x02060a, 0.018);
+    scene.fog = new THREE.FogExp2(0x02060a, 0.014);
 
     const camera = new THREE.PerspectiveCamera(74, mount.clientWidth / mount.clientHeight, 0.1, 400);
     camera.position.set(-29, 1.7, 8);
@@ -165,7 +165,7 @@ export default function CoreScene(props: CoreSceneProps) {
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, high ? 2 : 1.25));
     renderer.setSize(mount.clientWidth, mount.clientHeight);
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.05;
+    renderer.toneMappingExposure = 0.82;
     mount.appendChild(renderer.domElement);
 
     // ---------- post processing ----------
@@ -175,9 +175,9 @@ export default function CoreScene(props: CoreSceneProps) {
     if (!low) {
       bloom = new UnrealBloomPass(
         new THREE.Vector2(mount.clientWidth, mount.clientHeight),
-        high ? 0.85 : 0.6,
-        0.75,
-        0.2,
+        high ? 0.42 : 0.32,
+        0.5,
+        0.82,
       );
       composer.addPass(bloom);
     }
@@ -186,14 +186,14 @@ export default function CoreScene(props: CoreSceneProps) {
 
     /* ---------------- environment ---------------- */
 
-    scene.add(new THREE.AmbientLight(0x24445e, 0.9));
-    const coreLight = new THREE.PointLight(0x8fe6ff, 300, 110, 2);
+    scene.add(new THREE.AmbientLight(0x1b3548, 0.55));
+    const coreLight = new THREE.PointLight(0x8fe6ff, 150, 80, 2);
     coreLight.position.set(0, CORE_Y, 0);
     scene.add(coreLight);
-    const rim = new THREE.DirectionalLight(0xbfe9ff, 0.45);
+    const rim = new THREE.DirectionalLight(0xbfe9ff, 0.28);
     rim.position.set(10, 24, 10);
     scene.add(rim);
-    const underGlow = new THREE.PointLight(0x1f6d8c, 90, 60, 2);
+    const underGlow = new THREE.PointLight(0x1f6d8c, 45, 45, 2);
     underGlow.position.set(0, 0.6, 0);
     scene.add(underGlow);
 
@@ -266,7 +266,7 @@ export default function CoreScene(props: CoreSceneProps) {
         new THREE.MeshStandardMaterial({
           color: 0x0b2634,
           emissive: 0x1a7fa0,
-          emissiveIntensity: 0.5,
+          emissiveIntensity: 0.22,
           metalness: 0.9,
           roughness: 0.3,
         }),
@@ -323,7 +323,7 @@ export default function CoreScene(props: CoreSceneProps) {
       new THREE.MeshStandardMaterial({
         color: 0x0ea5c9,
         emissive: 0x6ff0ff,
-        emissiveIntensity: 3.2,
+        emissiveIntensity: 1.5,
         roughness: 0.1,
         metalness: 0.35,
       }),
@@ -466,7 +466,7 @@ export default function CoreScene(props: CoreSceneProps) {
         new THREE.MeshStandardMaterial({
           color: 0x0b1c26,
           emissive: s.accent,
-          emissiveIntensity: 1.2,
+          emissiveIntensity: 0.5,
           metalness: 0.9,
           roughness: 0.25,
         }),
@@ -547,7 +547,7 @@ export default function CoreScene(props: CoreSceneProps) {
       beam.position.y = 8;
       g.add(beam);
 
-      const light = new THREE.PointLight(s.accent, 26, 24, 2);
+      const light = new THREE.PointLight(s.accent, 12, 18, 2);
       light.position.set(0, 2.6, 0.6);
       g.add(light);
 
@@ -753,7 +753,7 @@ export default function CoreScene(props: CoreSceneProps) {
       nucleus.rotation.y = t * 0.22;
       nucleus.rotation.x = Math.sin(t * 0.3) * 0.2;
       nucleus.scale.setScalar(1 + beat * 0.06);
-      (nucleus.material as THREE.MeshStandardMaterial).emissiveIntensity = 2.6 + beat * 0.9;
+      (nucleus.material as THREE.MeshStandardMaterial).emissiveIntensity = 1.35 + beat * 0.45;
       shells.forEach((s, i) => {
         s.rotation.y = t * (0.1 + i * 0.07) * (i % 2 ? -1 : 1);
         s.rotation.x = t * 0.05 * (i + 1);
@@ -774,8 +774,8 @@ export default function CoreScene(props: CoreSceneProps) {
         m.lookAt(0, m.position.y, 0);
         (m.material as THREE.MeshBasicMaterial).opacity = 0.35 + Math.abs(Math.sin(t * 2 + i)) * 0.65;
       });
-      coreLight.intensity = 260 + beat * 90;
-      underGlow.intensity = 70 + beat * 30;
+      coreLight.intensity = 130 + beat * 45;
+      underGlow.intensity = 38 + beat * 14;
       upBeam.rotation.y = t * 0.1;
       (upBeam.material as THREE.MeshBasicMaterial).opacity = 0.07 + Math.abs(beat) * 0.05;
       ceilingRings.rotation.y = t * 0.03;
@@ -832,8 +832,8 @@ export default function CoreScene(props: CoreSceneProps) {
 
         s.ring.rotation.z = t * (0.4 + k * 1.6);
         (s.ring.material as THREE.MeshBasicMaterial).opacity = 0.4 + k * (0.3 + Math.sin(t * 5) * 0.25);
-        (s.arch.material as THREE.MeshStandardMaterial).emissiveIntensity = 0.9 + k * 2.2;
-        s.light.intensity = 20 + k * 55;
+        (s.arch.material as THREE.MeshStandardMaterial).emissiveIntensity = 0.4 + k * 1.1;
+        s.light.intensity = 10 + k * 26;
 
         const pm = s.panel.material as THREE.MeshBasicMaterial;
         pm.opacity = k * 0.95;
