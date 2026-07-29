@@ -52,7 +52,7 @@ export default function CoreScene(props: CoreSceneProps) {
     scene.fog = new THREE.FogExp2(0x03070c, 0.022);
 
     const camera = new THREE.PerspectiveCamera(72, mount.clientWidth / mount.clientHeight, 0.1, 300);
-    camera.position.set(0, 1.7, 20);
+    camera.position.set(-25, 1.7, 0);
 
     const renderer = new THREE.WebGLRenderer({
       antialias: quality !== "low",
@@ -254,7 +254,7 @@ export default function CoreScene(props: CoreSceneProps) {
 
     // ---------- controls ----------
     const keys = new Set<string>();
-    let yaw = Math.PI;
+    let yaw = -Math.PI / 2;
     let pitch = 0;
     const velocity = new THREE.Vector3();
     let nearId: string | null = null;
