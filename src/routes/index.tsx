@@ -1,122 +1,211 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Scanner } from "@/lib/scanner/Scanner";
-import { drawOrbital, drawNeural, drawPulse } from "@/lib/scanner/math";
-import { TechnicalPanel, DataReadout, HoloLabel, GridBackdrop, Reticle, Divider } from "@/components/technical/primitives";
+import { useEffect, useMemo, useState } from "react";
+import { ChipCard, type ChipModule } from "@/components/ChipCard";
 
 export const Route = createFileRoute("/")({
-  component: Genesis,
+  head: () => ({
+    meta: [
+      { title: "LIGHT OS Ω — Universal Engineering Interface" },
+      { name: "description", content: "A calm, minimal operating system for civilization-scale engineering. Modules revealed on request." },
+      { property: "og:title", content: "LIGHT OS Ω" },
+      { property: "og:description", content: "Universal engineering interface. Minimal by design." },
+    ],
+  }),
+  component: Home,
 });
 
-const MODULES = [
-  { path: "/civilization", code: "CIV-01", title: "Civilization", desc: "Generation-driven evolution of species, industry and knowledge." },
-  { path: "/fleet",        code: "FLT-02", title: "Fleet",        desc: "Ship lineage, engine history, orbital deployment." },
-  { path: "/scanner",      code: "SCN-03", title: "Scanner",      desc: "Procedural graphics engine across ten modes." },
-  { path: "/industry",     code: "IND-04", title: "Industry",     desc: "Harmonic manufacturing and production graphs." },
-  { path: "/research",     code: "RES-05", title: "Research",     desc: "Fractal knowledge trees and compression." },
-  { path: "/fps",          code: "FPS-06", title: "FPS",          desc: "Mission command, armor, exosuits, gundams." },
-  { path: "/space",        code: "SPC-07", title: "Space",        desc: "Galaxy map, orbital combat, colonization." },
-  { path: "/species",      code: "SPS-08", title: "Species",      desc: "Evolutionary lineage and adaptation." },
-  { path: "/ai",           code: "AI-09",  title: "AI",           desc: "Neural runtime and tier progression." },
-  { path: "/engine",       code: "ENG-10", title: "Engine",       desc: "Scene graph, animation graph, module library." },
-  { path: "/runtime",      code: "RUN-11", title: "Runtime",      desc: "Live diagnostics: FPS, memory, animation load." },
-  { path: "/developer",    code: "DEV-12", title: "Developer",    desc: "Introspection tools and module registry." },
-] as const;
+const MODULES: ChipModule[] = [
+  { path: "/civilization", code: "CIV·01", title: "Civilization", desc: "Generation-driven evolution of species, industry and knowledge.", status: "online", progress: 0.72, accent: "mint" },
+  { path: "/fleet",        code: "FLT·02", title: "Fleet",        desc: "Ship lineage, engine history and orbital deployment.",             status: "online", progress: 0.54, accent: "ice" },
+  { path: "/scanner",      code: "SCN·03", title: "Scanner",      desc: "Procedural graphics engine across ten resonant modes.",           status: "online", progress: 0.88, accent: "cyan" },
+  { path: "/industry",     code: "IND·04", title: "Industry",     desc: "Harmonic manufacturing and quiet production graphs.",             status: "build",  progress: 0.41, accent: "amber" },
+  { path: "/research",     code: "RES·05", title: "Research",     desc: "Fractal knowledge trees and thoughtful compression.",             status: "online", progress: 0.66, accent: "emerald" },
+  { path: "/fps",          code: "FPS·06", title: "FPS",          desc: "Mission command, armor, exosuits, gundams.",                      status: "idle",   progress: 0.22, accent: "coral" },
+  { path: "/space",        code: "SPC·07", title: "Space",        desc: "Galaxy map, orbital ops and colonization.",                       status: "online", progress: 0.61, accent: "ice" },
+  { path: "/species",      code: "SPS·08", title: "Species",      desc: "Evolutionary lineage and adaptation.",                            status: "online", progress: 0.48, accent: "mint" },
+  { path: "/ai",           code: "AI·09",  title: "AI",           desc: "Neural runtime and tier progression.",                            status: "online", progress: 0.79, accent: "violet" },
+  { path: "/engine",       code: "ENG·10", title: "Engine",       desc: "Scene graph, animation graph and module library.",                status: "online", progress: 0.58, accent: "cyan" },
+  { path: "/runtime",      code: "RUN·11", title: "Runtime",      desc: "Live diagnostics: FPS, memory, animation load.",                  status: "online", progress: 0.9,  accent: "emerald" },
+  { path: "/developer",    code: "DEV·12", title: "Developer",    desc: "Introspection tools and module registry.",                        status: "idle",   progress: 0.35, accent: "amber" },
+];
 
-function Genesis() {
+const PAGE_SIZE = 10;
+
+function Home() {
+  const [page, setPage] = useState(0);
+  const [now, setNow] = useState(() => new Date());
+  const [query, setQuery] = useState("");
+
+  useEffect(() => {
+    const id = setInterval(() => setNow(new Date()), 15_000);
+    return () => clearInterval(id);
+  }, []);
+
+  const filtered = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    if (!q) return MODULES;
+    return MODULES.filter(m =>
+      m.title.toLowerCase().includes(q) ||
+      m.desc.toLowerCase().includes(q) ||
+      m.code.toLowerCase().includes(q)
+    );
+  }, [query]);
+
+  const pageCount = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+  const clampedPage = Math.min(page, pageCount - 1);
+  const start = clampedPage * PAGE_SIZE;
+  const visible = filtered.slice(start, start + PAGE_SIZE);
+
+  const active = MODULES.slice(0, 4);
+
+  const time = now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+  const date = now.toLocaleDateString([], { weekday: "long", day: "numeric", month: "long" });
+
   return (
-    <main className="relative">
-      <section className="relative overflow-hidden border-b border-border">
-        <GridBackdrop />
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-signal/5 to-transparent" />
-        <div className="pointer-events-none absolute inset-0">
-          <div className="absolute left-1/2 top-1/2 h-[520px] w-[520px] -translate-x-1/2 -translate-y-1/2 opacity-[0.18]">
-            <Scanner draw={(c, t) => drawOrbital(c, t, { bodies: 6, speed: 0.9, eccentricity: 0.35 })} className="h-full w-full" />
+    <main className="mx-auto max-w-[1400px] px-6 pb-24 pt-10 sm:px-10 sm:pt-16">
+      {/* Home header — only what's currently useful */}
+      <section className="grid gap-8 sm:grid-cols-[1.4fr_1fr] sm:items-end">
+        <div className="animate-fade-slide">
+          <div className="font-mono text-[10px] uppercase tracking-[0.35em] text-muted-foreground">
+            {date}
           </div>
+          <h1 className="mt-3 text-5xl font-extralight leading-[1.05] tracking-tight text-foreground sm:text-7xl">
+            Good day.
+          </h1>
+          <p className="mt-4 max-w-md text-base font-light text-muted-foreground sm:text-lg">
+            LIGHT OS Ω · Genesis Project. Everything else is hidden until you ask.
+          </p>
         </div>
 
-        <div className="relative mx-auto max-w-[1600px] px-4 py-16 sm:px-6 sm:py-24">
-          <div className="flex items-center gap-3">
-            <Reticle className="h-4 w-4" />
-            <HoloLabel>Genesis · Foundation Release · Signal Lock</HoloLabel>
+        <div className="animate-fade-slide flex flex-col items-start gap-4 sm:items-end">
+          <div className="font-mono text-5xl font-extralight tabular-nums text-foreground sm:text-6xl">
+            {time}
           </div>
-          <h1 className="mt-6 max-w-3xl text-4xl font-medium leading-[1.05] tracking-tight sm:text-6xl">
-            The browser-native civilization<br />operating system.
-          </h1>
-          <p className="mt-6 max-w-xl text-base text-muted-foreground sm:text-lg">
-            LIGHT Protocol is a modular runtime. Every module — from FPS combat to orbital logistics — renders through a single procedural scanner engine and shares one universal structure.
-          </p>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <Link to="/civilization" className="rounded border border-signal bg-signal/10 px-5 py-2.5 font-mono text-xs uppercase tracking-[0.25em] text-signal hover:bg-signal hover:text-background">
-              Initiate Civilization →
-            </Link>
-            <Link to="/scanner" className="rounded border border-border px-5 py-2.5 font-mono text-xs uppercase tracking-[0.25em] text-foreground hover:bg-plate-raised">
-              Open Scanner
-            </Link>
-            <Link to="/runtime" className="rounded border border-border px-5 py-2.5 font-mono text-xs uppercase tracking-[0.25em] text-foreground hover:bg-plate-raised">
-              Runtime Diagnostics
-            </Link>
-          </div>
-
-          <div className="mt-14 grid grid-cols-2 gap-6 sm:grid-cols-4">
-            <DataReadout label="Modules" value="12" hint="foundation set" />
-            <DataReadout label="Scanner Modes" value="10" hint="procedural" />
-            <DataReadout label="Math Engines" value="4" unit="active" />
-            <DataReadout label="Runtime" value="Browser" unit="native" />
+          <div className="flex items-center gap-2">
+            <span className="inline-block h-2 w-2 rounded-full bg-[color:var(--mint)] animate-signal-pulse" />
+            <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
+              Runtime nominal
+            </span>
           </div>
         </div>
       </section>
 
-      <section className="mx-auto max-w-[1600px] px-4 py-12 sm:px-6">
+      {/* Search */}
+      <section className="mt-12 animate-fade-slide">
+        <label className="ceramic-card flex items-center gap-4 rounded-full px-6 py-4">
+          <svg viewBox="0 0 24 24" className="h-5 w-5 text-muted-foreground" fill="none" stroke="currentColor" strokeWidth="1.5">
+            <circle cx="11" cy="11" r="7" />
+            <path d="m20 20-3.5-3.5" strokeLinecap="round" />
+          </svg>
+          <input
+            value={query}
+            onChange={(e) => { setQuery(e.target.value); setPage(0); }}
+            placeholder="Search modules, blueprints, systems…"
+            className="w-full bg-transparent text-base font-light outline-none placeholder:text-muted-foreground"
+          />
+          <span className="hidden font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground sm:inline">
+            ⌘ K
+          </span>
+        </label>
+      </section>
+
+      {/* Active modules — quiet strip */}
+      <section className="mt-14 animate-fade-slide">
         <div className="flex items-baseline justify-between">
-          <div>
-            <HoloLabel>Manifest · Modules</HoloLabel>
-            <h2 className="mt-2 text-2xl font-medium tracking-tight sm:text-3xl">Modules resolve as independent runtimes.</h2>
-          </div>
-          <div className="hidden font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground sm:block">12 / 12 online</div>
+          <h2 className="text-xs font-mono uppercase tracking-[0.35em] text-muted-foreground">
+            Active
+          </h2>
+          <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
+            {active.length} running
+          </span>
         </div>
-        <Divider label="Registry" />
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {MODULES.map((m) => (
-            <Link key={m.path} to={m.path} className="group">
-              <TechnicalPanel code={m.code} title={m.title} className="h-full transition-colors group-hover:border-signal">
-                <div className="grid gap-3 p-4">
-                  <p className="text-sm text-muted-foreground">{m.desc}</p>
-                  <div className="flex items-center justify-between border-t border-border pt-3">
-                    <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-signal-dim group-hover:text-signal">Enter →</span>
-                    <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">online</span>
-                  </div>
-                </div>
-              </TechnicalPanel>
+        <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          {active.map((m) => (
+            <Link key={m.path} to={m.path} className="group flex items-center gap-3 rounded-full border border-border bg-plate px-4 py-3 transition-colors hover:border-foreground/20">
+              <span className="h-2 w-2 rounded-full" style={{ background: `var(--${m.accent})` }} />
+              <span className="truncate text-sm font-light">{m.title}</span>
+              <span className="ml-auto font-mono text-[10px] tabular-nums text-muted-foreground">
+                {Math.round(m.progress * 100)}%
+              </span>
             </Link>
           ))}
         </div>
       </section>
 
-      <section className="mx-auto max-w-[1600px] px-4 pb-24 pt-6 sm:px-6">
-        <div className="grid gap-4 lg:grid-cols-3">
-          <TechnicalPanel code="SCN·GAL" title="Galactic Scanner" className="lg:col-span-2">
-            <Scanner
-              draw={(c, t) => drawOrbital(c, t, { bodies: 7, speed: 1.0, eccentricity: 0.4 })}
-              className="aspect-[16/9] w-full"
-              label="Live · Orbital Solution"
-            />
-          </TechnicalPanel>
-          <TechnicalPanel code="SCN·NRL" title="Neural Runtime">
-            <Scanner
-              draw={(c, t) => drawNeural(c, t, { nodes: 24, density: 0.6 })}
-              className="aspect-square w-full"
-              label="Live · Neural"
-            />
-          </TechnicalPanel>
-          <TechnicalPanel code="SCN·ENR" title="Energy Pulse" className="lg:col-span-3">
-            <Scanner
-              draw={(c, t) => drawPulse(c, t, { amplitude: 1, frequency: 1.4, harmonics: 4, intensity: 1 })}
-              className="h-40 w-full"
-              label="Live · Pulse"
-            />
-          </TechnicalPanel>
+      {/* Modules — paginated 10/page */}
+      <section className="mt-16">
+        <div className="flex items-baseline justify-between">
+          <div>
+            <h2 className="text-xs font-mono uppercase tracking-[0.35em] text-muted-foreground">
+              Modules
+            </h2>
+            <p className="mt-2 text-2xl font-light tracking-tight sm:text-3xl">
+              {filtered.length === MODULES.length
+                ? "All systems, revealed only when needed."
+                : `${filtered.length} matching ${filtered.length === 1 ? "system" : "systems"}.`}
+            </p>
+          </div>
+          <span className="hidden font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground sm:block">
+            Page {clampedPage + 1} / {pageCount}
+          </span>
         </div>
+
+        <div key={clampedPage} className="mt-8 grid animate-fade-slide gap-6 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2">
+          {visible.map((m) => (
+            <ChipCard key={m.path} mod={m} />
+          ))}
+        </div>
+
+        {filtered.length === 0 && (
+          <div className="mt-12 rounded-2xl border border-dashed border-border p-12 text-center">
+            <p className="text-sm text-muted-foreground">No modules match “{query}”.</p>
+          </div>
+        )}
+
+        {pageCount > 1 && (
+          <nav className="mt-10 flex items-center justify-center gap-2" aria-label="Module pages">
+            <PagerButton
+              disabled={clampedPage === 0}
+              onClick={() => setPage(p => Math.max(0, p - 1))}
+              label="◀ Previous"
+            />
+            <div className="flex items-center gap-1 px-2">
+              {Array.from({ length: pageCount }).map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => setPage(i)}
+                  aria-current={i === clampedPage ? "page" : undefined}
+                  className={
+                    "h-9 min-w-9 rounded-full px-3 font-mono text-xs tabular-nums transition-all " +
+                    (i === clampedPage
+                      ? "bg-foreground text-background"
+                      : "text-muted-foreground hover:bg-muted")
+                  }
+                >
+                  {i + 1}
+                </button>
+              ))}
+            </div>
+            <PagerButton
+              disabled={clampedPage >= pageCount - 1}
+              onClick={() => setPage(p => Math.min(pageCount - 1, p + 1))}
+              label="Next ▶"
+            />
+          </nav>
+        )}
       </section>
     </main>
+  );
+}
+
+function PagerButton({ label, onClick, disabled }: { label: string; onClick: () => void; disabled?: boolean }) {
+  return (
+    <button
+      onClick={onClick}
+      disabled={disabled}
+      className="rounded-full border border-border bg-plate px-4 py-2 font-mono text-[11px] uppercase tracking-[0.25em] text-foreground transition-all hover:bg-muted disabled:cursor-not-allowed disabled:opacity-40"
+    >
+      {label}
+    </button>
   );
 }

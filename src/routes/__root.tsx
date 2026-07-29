@@ -11,7 +11,7 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
-import { RadialWheel } from "../components/RadialWheel";
+import { EveOrb } from "../components/EveOrb";
 
 function NotFoundComponent() {
   return (
@@ -94,7 +94,7 @@ function RootComponent() {
       <div className="min-h-screen bg-background">
         <TopBar />
         <Outlet />
-        <RadialWheel />
+        <EveOrb />
       </div>
     </QueryClientProvider>
   );
@@ -102,16 +102,19 @@ function RootComponent() {
 
 function TopBar() {
   return (
-    <header className="sticky top-0 z-40 border-b border-border bg-background/85 backdrop-blur">
-      <div className="mx-auto flex max-w-[1600px] items-center justify-between px-4 py-2.5 sm:px-6">
+    <header className="sticky top-0 z-30 border-b border-border/60 bg-background/70 backdrop-blur-xl">
+      <div className="mx-auto flex max-w-[1400px] items-center justify-between px-6 py-4 sm:px-10">
         <Link to="/" className="flex items-center gap-3">
-          <span className="inline-block h-2 w-2 rounded-full bg-signal animate-signal-pulse" />
-          <span className="font-mono text-[11px] uppercase tracking-[0.35em] text-signal">LIGHT · Genesis</span>
-          <span className="hidden font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground sm:inline">v1.0 Foundation</span>
+          <span className="grid h-6 w-6 place-items-center rounded-full border border-border bg-plate">
+            <span className="h-1.5 w-1.5 rounded-full bg-[color:var(--mint)] animate-signal-pulse" />
+          </span>
+          <span className="font-mono text-[11px] uppercase tracking-[0.35em] text-foreground">LIGHT OS Ω</span>
+          <span className="hidden font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground sm:inline">Genesis</span>
         </Link>
-        <div className="flex items-center gap-4 font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
-          <span className="hidden sm:inline">Runtime</span>
-          <span className="text-signal">ONLINE</span>
+        <div className="flex items-center gap-6 font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
+          <span className="hidden sm:inline">Notifications</span>
+          <span className="hidden sm:inline">Search</span>
+          <span className="text-[color:var(--mint)]">● Online</span>
         </div>
       </div>
     </header>
