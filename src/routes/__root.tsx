@@ -116,7 +116,9 @@ function TopBar() {
           <span className="hidden font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground sm:inline">Genesis</span>
         </Link>
         <div className="flex items-center gap-6 font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
+          <Link to="/core" className="rounded border border-signal/60 px-3 py-1.5 text-signal hover:bg-signal hover:text-background">Enter Core</Link>
           <span className="hidden sm:inline">Notifications</span>
+
           <span className="hidden sm:inline">Search</span>
           <span className="text-[color:var(--mint)]">● Online</span>
         </div>
