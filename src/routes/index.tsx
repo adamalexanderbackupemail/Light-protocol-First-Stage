@@ -5,10 +5,10 @@ import { ChipCard, type ChipModule } from "@/components/ChipCard";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "LIGHT OS Ω — Universal Engineering Interface" },
+      { title: "LIGHT Protocol first stage" },
       { name: "description", content: "A calm, minimal operating system for civilization-scale engineering. Modules revealed on request." },
-      { property: "og:title", content: "LIGHT OS Ω" },
-      { property: "og:description", content: "Universal engineering interface. Minimal by design." },
+      { property: "og:title", content: "LIGHT Protocol first stage" },
+      { property: "og:description", content: "A calm, minimal operating system for civilization-scale engineering. Modules revealed on request." },
     ],
   }),
   component: Home,
