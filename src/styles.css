@@ -5,9 +5,8 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
- * LIGHT Protocol Genesis — design tokens.
- * Aerospace / industrial hologram language.
- * All colors oklch. All values semantic.
+ * LIGHT OS Ω — bright ceramic / titanium tokens.
+ * Apple · Ferrari · B&O · NASA · Scandinavian studio.
  */
 
 @theme inline {
@@ -37,7 +36,6 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
 
-  /* LIGHT Protocol semantic tokens */
   --color-signal: var(--signal);
   --color-signal-dim: var(--signal-dim);
   --color-grid-line: var(--grid-line);
@@ -47,46 +45,64 @@
   --color-warn: var(--warn);
   --color-hot: var(--hot);
 
+  --color-mint: var(--mint);
+  --color-ice: var(--ice);
+  --color-cyan: var(--cyan);
+  --color-emerald: var(--emerald);
+  --color-amber: var(--amber);
+  --color-coral: var(--coral);
+  --color-violet: var(--violet);
+
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
   --font-sans: "Inter Tight", ui-sans-serif, system-ui;
+  --font-display: "Inter Tight", ui-sans-serif, system-ui;
 }
 
 :root {
-  --radius: 0.25rem;
+  --radius: 1rem;
 
-  /* Deep space, brushed titanium, cyan signal */
-  --background: oklch(0.14 0.01 240);
-  --foreground: oklch(0.96 0.005 240);
+  /* Bright ceramic / brushed titanium */
+  --background: oklch(0.985 0.003 240);
+  --foreground: oklch(0.24 0.02 240);
 
-  --plate: oklch(0.18 0.012 240);
-  --plate-raised: oklch(0.22 0.014 240);
+  --plate: oklch(1 0 0);
+  --plate-raised: oklch(0.98 0.004 240);
 
-  --card: oklch(0.17 0.012 240);
-  --card-foreground: oklch(0.96 0.005 240);
-  --popover: oklch(0.19 0.014 240);
-  --popover-foreground: oklch(0.96 0.005 240);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.24 0.02 240);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.24 0.02 240);
 
-  --primary: oklch(0.85 0.13 210);
-  --primary-foreground: oklch(0.14 0.01 240);
-  --secondary: oklch(0.28 0.012 240);
-  --secondary-foreground: oklch(0.96 0.005 240);
-  --muted: oklch(0.22 0.01 240);
-  --muted-foreground: oklch(0.68 0.02 240);
-  --accent: oklch(0.28 0.02 210);
-  --accent-foreground: oklch(0.96 0.005 240);
+  --primary: oklch(0.55 0.14 220);
+  --primary-foreground: oklch(0.99 0 0);
+  --secondary: oklch(0.95 0.005 240);
+  --secondary-foreground: oklch(0.24 0.02 240);
+  --muted: oklch(0.96 0.004 240);
+  --muted-foreground: oklch(0.5 0.015 240);
+  --accent: oklch(0.94 0.02 210);
+  --accent-foreground: oklch(0.24 0.02 240);
   --destructive: oklch(0.62 0.22 25);
-  --destructive-foreground: oklch(0.98 0 0);
+  --destructive-foreground: oklch(0.99 0 0);
 
-  --border: oklch(0.32 0.012 240);
-  --input: oklch(0.28 0.012 240);
-  --ring: oklch(0.85 0.13 210);
+  --border: oklch(0.92 0.006 240);
+  --input: oklch(0.94 0.006 240);
+  --ring: oklch(0.72 0.12 210);
 
-  --signal: oklch(0.88 0.16 210);
-  --signal-dim: oklch(0.55 0.09 210);
-  --grid-line: oklch(0.35 0.015 240 / 0.55);
-  --hologram: oklch(0.78 0.14 200 / 0.85);
-  --warn: oklch(0.82 0.16 85);
-  --hot: oklch(0.7 0.22 35);
+  --signal: oklch(0.62 0.14 210);
+  --signal-dim: oklch(0.78 0.06 210);
+  --grid-line: oklch(0.88 0.008 240 / 0.7);
+  --hologram: oklch(0.7 0.13 200 / 0.85);
+  --warn: oklch(0.78 0.16 85);
+  --hot: oklch(0.65 0.22 30);
+
+  /* Accent palette (meaningful) */
+  --mint: oklch(0.82 0.13 165);
+  --ice: oklch(0.85 0.08 220);
+  --cyan: oklch(0.78 0.13 200);
+  --emerald: oklch(0.68 0.15 155);
+  --amber: oklch(0.82 0.15 80);
+  --coral: oklch(0.75 0.16 25);
+  --violet: oklch(0.7 0.16 300);
 }
 
 @layer base {
@@ -98,6 +114,7 @@
     color: var(--color-foreground);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
+    letter-spacing: -0.01em;
   }
   .font-mono, code, kbd, samp {
     font-family: var(--font-mono);
@@ -106,34 +123,40 @@
 
 @utility technical-panel {
   position: relative;
-  background:
-    linear-gradient(180deg, color-mix(in oklab, var(--plate-raised) 92%, transparent), var(--plate));
+  background: var(--plate);
   border: 1px solid var(--color-border);
   border-radius: var(--radius);
+}
+
+@utility ceramic-card {
+  position: relative;
+  background:
+    radial-gradient(120% 80% at 30% 0%, oklch(1 0 0) 0%, oklch(0.985 0.003 240) 60%, oklch(0.965 0.005 240) 100%);
+  border: 1px solid var(--color-border);
+  border-radius: calc(var(--radius) + 4px);
+  box-shadow:
+    0 1px 0 oklch(1 0 0 / 0.9) inset,
+    0 20px 40px -30px oklch(0.4 0.02 240 / 0.25),
+    0 2px 8px -4px oklch(0.4 0.02 240 / 0.08);
+}
+
+@utility glass-panel {
+  background: color-mix(in oklab, var(--plate) 82%, transparent);
+  backdrop-filter: blur(20px) saturate(1.4);
+  border: 1px solid color-mix(in oklab, var(--color-border) 80%, transparent);
+  border-radius: calc(var(--radius) + 4px);
+  box-shadow: 0 20px 60px -30px oklch(0.4 0.02 240 / 0.25);
 }
 
 @utility grid-backdrop {
   background-image:
     linear-gradient(var(--grid-line) 1px, transparent 1px),
     linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
-  background-size: 48px 48px;
+  background-size: 72px 72px;
 }
 
 @utility signal-text {
   color: var(--signal);
-  text-shadow: 0 0 12px color-mix(in oklab, var(--signal) 50%, transparent);
-}
-
-@utility corner-brackets {
-  position: relative;
-}
-@utility corner-brackets-inner {
-  &::before, &::after {
-    content: "";
-    position: absolute;
-    width: 12px; height: 12px;
-    border: 1px solid var(--signal);
-  }
 }
 
 @keyframes signal-pulse {
@@ -148,7 +171,17 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+@keyframes chip-breathe {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-1px) scale(1.005); }
+}
+@keyframes fade-slide-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 
 .animate-signal-pulse { animation: signal-pulse 2.4s ease-in-out infinite; }
 .animate-scan-sweep { animation: scan-sweep 4s linear infinite; }
-.animate-wheel-slow { animation: wheel-spin-slow 120s linear infinite; }
+.animate-wheel-slow { animation: wheel-spin-slow 240s linear infinite; }
+.animate-chip-breathe { animation: chip-breathe 6s ease-in-out infinite; }
+.animate-fade-slide { animation: fade-slide-in 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
