@@ -16,6 +16,7 @@ import { Route as RuntimeRouteImport } from './routes/runtime'
 import { Route as ResearchRouteImport } from './routes/research'
 import { Route as KnowledgeRouteImport } from './routes/knowledge'
 import { Route as IndustryRouteImport } from './routes/industry'
+import { Route as HierarchyRouteImport } from './routes/hierarchy'
 import { Route as FpsRouteImport } from './routes/fps'
 import { Route as FleetRouteImport } from './routes/fleet'
 import { Route as EngineRouteImport } from './routes/engine'
@@ -58,6 +59,11 @@ const KnowledgeRoute = KnowledgeRouteImport.update({
 const IndustryRoute = IndustryRouteImport.update({
   id: '/industry',
   path: '/industry',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HierarchyRoute = HierarchyRouteImport.update({
+  id: '/hierarchy',
+  path: '/hierarchy',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FpsRoute = FpsRouteImport.update({
@@ -110,6 +116,7 @@ export interface FileRoutesByFullPath {
   '/engine': typeof EngineRoute
   '/fleet': typeof FleetRoute
   '/fps': typeof FpsRoute
+  '/hierarchy': typeof HierarchyRoute
   '/industry': typeof IndustryRoute
   '/knowledge': typeof KnowledgeRoute
   '/research': typeof ResearchRoute
@@ -127,6 +134,7 @@ export interface FileRoutesByTo {
   '/engine': typeof EngineRoute
   '/fleet': typeof FleetRoute
   '/fps': typeof FpsRoute
+  '/hierarchy': typeof HierarchyRoute
   '/industry': typeof IndustryRoute
   '/knowledge': typeof KnowledgeRoute
   '/research': typeof ResearchRoute
@@ -145,6 +153,7 @@ export interface FileRoutesById {
   '/engine': typeof EngineRoute
   '/fleet': typeof FleetRoute
   '/fps': typeof FpsRoute
+  '/hierarchy': typeof HierarchyRoute
   '/industry': typeof IndustryRoute
   '/knowledge': typeof KnowledgeRoute
   '/research': typeof ResearchRoute
@@ -164,6 +173,7 @@ export interface FileRouteTypes {
     | '/engine'
     | '/fleet'
     | '/fps'
+    | '/hierarchy'
     | '/industry'
     | '/knowledge'
     | '/research'
@@ -181,6 +191,7 @@ export interface FileRouteTypes {
     | '/engine'
     | '/fleet'
     | '/fps'
+    | '/hierarchy'
     | '/industry'
     | '/knowledge'
     | '/research'
@@ -198,6 +209,7 @@ export interface FileRouteTypes {
     | '/engine'
     | '/fleet'
     | '/fps'
+    | '/hierarchy'
     | '/industry'
     | '/knowledge'
     | '/research'
@@ -216,6 +228,7 @@ export interface RootRouteChildren {
   EngineRoute: typeof EngineRoute
   FleetRoute: typeof FleetRoute
   FpsRoute: typeof FpsRoute
+  HierarchyRoute: typeof HierarchyRoute
   IndustryRoute: typeof IndustryRoute
   KnowledgeRoute: typeof KnowledgeRoute
   ResearchRoute: typeof ResearchRoute
@@ -274,6 +287,13 @@ declare module '@tanstack/react-router' {
       path: '/industry'
       fullPath: '/industry'
       preLoaderRoute: typeof IndustryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/hierarchy': {
+      id: '/hierarchy'
+      path: '/hierarchy'
+      fullPath: '/hierarchy'
+      preLoaderRoute: typeof HierarchyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/fps': {
@@ -344,6 +364,7 @@ const rootRouteChildren: RootRouteChildren = {
   EngineRoute: EngineRoute,
   FleetRoute: FleetRoute,
   FpsRoute: FpsRoute,
+  HierarchyRoute: HierarchyRoute,
   IndustryRoute: IndustryRoute,
   KnowledgeRoute: KnowledgeRoute,
   ResearchRoute: ResearchRoute,
@@ -355,13 +376,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
